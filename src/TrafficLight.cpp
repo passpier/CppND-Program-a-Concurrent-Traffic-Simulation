@@ -30,7 +30,8 @@ void MessageQueue<T>::send(T &&msg)
     // as well as _condition.notify_one() to add a new message to the queue and afterwards send a notification.
     std::lock_guard<std::mutex> uLock(_mutex);
     std::cout << "   Message " << msg << " has been sent to the queue" << std::endl;
-    _queue.push_back(std::move(msg));
+    _queue.clear();
+    _queue.emplace_back(std::move(msg));
     _condition.notify_one();
 }
 
